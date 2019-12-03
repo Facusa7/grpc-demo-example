@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcServer";
+
+service Customer {
+	rpc GetCustomerInfo (CustomerLookupModel) returns (CustomerModel);
+}
+
+message CustomerLookupModel {
+	int32 userId = 1; //int32 is one of the common types as well as: bool, string, float, double
+}
+
+message CustomerModel {
+	string firstName = 1; //This order also tells GRPC how to code and decode it
+	string lastName = 2;
+	string emailAddress = 3;
+	bool isAlive = 4;
+	int32 age = 5;
+}
+
+// Note: Remember to setup this as Server Only and set the build action to Protobuf Compiler in the file properties
+// In addition, remember to rebuild the server to get the built file it is needed

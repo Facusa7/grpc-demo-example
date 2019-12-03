@@ -9,15 +9,26 @@ namespace GrpcClient
     {
         static async Task Main(string[] args)
         {
-            var input = new HelloRequest { Name = "Facundo" };
+            //var input = new HelloRequest { Name = "Facundo" };
+            //var channel = GrpcChannel.ForAddress("https://localhost:5001");
+
+            ////Here the greeter server is not being instantiated. The object is being created through the channel.
+            //var client = new Greeter.GreeterClient(channel);
+
+            //var reply = await client.SayHelloAsync(input);
+
+            //Console.WriteLine(reply.Message); //This is what the server responds 
+
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
 
             //Here the greeter server is not being instantiated. The object is being created through the channel.
-            var client = new Greeter.GreeterClient(channel);
+            var customerClient = new Customer.CustomerClient(channel);
 
-            var reply = await client.SayHelloAsync(input);
+            var input = new CustomerLookupModel { UserId = 2 };
 
-            Console.WriteLine(reply.Message); //This is what the server responds 
+            var customer = await customerClient.GetCustomerInfoAsync(input);
+
+            Console.WriteLine($"{customer.FirstName} {customer.LastName}"); //This is what the server responds 
 
             Console.ReadLine();
         }
