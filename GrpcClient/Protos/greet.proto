@@ -1,0 +1,24 @@
+syntax = "proto3"; //use the latest proto syntax or schema
+
+option csharp_namespace = "GrpcServer";
+
+package Greet;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply);
+}
+
+// The request message containing the user's name.
+// it is kind of a model in C#, but here you can define 0 or more properties (and complex objects nested if needed)
+message HelloRequest {
+  string name = 1; //the "1" indicates the order which this property goes 
+}
+
+// The response message containing the greetings.
+message HelloReply {
+  string message = 1;
+}
+
+//The "proto" file is like the contract in the API
