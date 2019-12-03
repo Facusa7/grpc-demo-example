@@ -39,5 +39,44 @@ namespace GrpcServer.Services
             //the "from result" allows to return a task type and it can either be sync or async code. 
             return Task.FromResult(output);
         }
+
+        public override async Task GetNewCustomers(GetNewCustomersRequest request, IServerStreamWriter<CustomerModel> responseStream, ServerCallContext context)
+        {
+            var customers = new List<CustomerModel>
+            {
+                new CustomerModel
+                {
+                    FirstName = "Facundo",
+                    LastName = "Sa",
+                    EmailAddress = "facundo.sa@test.com",
+                    Age = 28,
+                    IsAlive = true
+                },
+                new CustomerModel
+                {
+                    FirstName = "Juan",
+                    LastName = "Sa",
+                    EmailAddress = "juan.sa@test.com",
+                    Age = 30,
+                    IsAlive = false
+                },
+                new CustomerModel
+                {
+                    FirstName = "Sophie",
+                    LastName = "Rosemary",
+                    EmailAddress = "sophieRosemary@test.com",
+                    Age = 28,
+                    IsAlive = true
+                }
+            };
+
+            foreach (var customer in customers)
+            {
+                //this way one customer at a time is sent to the GRPC client
+                await responseStream.WriteAsync(customer);
+            }
+            // When the execution reaches this point, the client will end up the process.
+            // Otherwise, it will continue to listen until it is done.
+        }
     }
 }

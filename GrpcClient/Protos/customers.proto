@@ -4,7 +4,12 @@ option csharp_namespace = "GrpcServer";
 
 service Customer {
 	rpc GetCustomerInfo (CustomerLookupModel) returns (CustomerModel);
+	rpc GetNewCustomers (GetNewCustomersRequest) returns (stream CustomerModel); 
 }
+
+message GetNewCustomersRequest{
+}
+
 
 message CustomerLookupModel {
 	int32 userId = 1; //int32 is one of the common types as well as: bool, string, float, double
@@ -20,3 +25,7 @@ message CustomerModel {
 
 // Note: Remember to setup this as Client Only and set the build action to Protobuf Compiler in the file properties
 // In addition, remember to rebuild the server to get the built file it is needed
+
+
+//This file should be in sync with the one on the server. 
+//The best approach would be to put this in a common directory so we don't need to copy and paste. 

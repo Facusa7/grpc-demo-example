@@ -4,10 +4,18 @@ option csharp_namespace = "GrpcServer";
 
 service Customer {
 	rpc GetCustomerInfo (CustomerLookupModel) returns (CustomerModel);
+
+	//it returns a stream of customer model to indicate that a set of CustomerModel is returned
+	rpc GetNewCustomers (GetNewCustomersRequest) returns (stream CustomerModel); 
+}
+
+// Since GRPC does not admit rpc calls without parameters, the creation of a request is mandatory
+message GetNewCustomersRequest{
 }
 
 message CustomerLookupModel {
 	int32 userId = 1; //int32 is one of the common types as well as: bool, string, float, double
+	//CustomerModel repeats = 2; This way we can tell it that it'd be an array of objects
 }
 
 message CustomerModel {
