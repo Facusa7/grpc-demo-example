@@ -72,6 +72,7 @@ namespace GrpcServer.Services
 
             foreach (var customer in customers)
             {
+                await Task.Delay(5000); //Just to make it clear how the stream goes.
                 //this way one customer at a time is sent to the GRPC client
                 await responseStream.WriteAsync(customer);
             }
